@@ -11,10 +11,16 @@ public class Main {
     public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException {
         String code = createHelloWorldClassCode();
         ClassLoader classLoader = Main.class.getClassLoader();
+
         JavassistCompiler javassistCompiler = new JavassistCompiler();
         Class<?> helloWorldClass = javassistCompiler.compile(code, classLoader);
         Method method = helloWorldClass.getMethod("helloWorld", String.class);
-        method.invoke(helloWorldClass.newInstance(), "wangxuan");
+        method.invoke(helloWorldClass.newInstance(), "wangxuan1");
+
+        JdkCompiler jdkCompiler = new JdkCompiler();
+        helloWorldClass = jdkCompiler.compile(code, classLoader);
+        method = helloWorldClass.getMethod("helloWorld", String.class);
+        method.invoke(helloWorldClass.newInstance(), "wangxuan2");
     }
 
     private static String createHelloWorldClassCode() {

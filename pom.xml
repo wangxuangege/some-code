@@ -12,6 +12,7 @@
     <modules>
         <module>dynamic-proxy</module>
         <module>dynamic-class</module>
+        <module>sentinel</module>
     </modules>
 
     <dependencies>
@@ -21,4 +22,27 @@
             <version>1.16.12</version>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>main</id>
+            <!-- <url>http://144.131.254.48/nexus/content/groups/public/</url>-->
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>main-plugin</id>
+            <!-- <url>http://144.131.254.48:6080/nexus/content/groups/public/</url>-->
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>

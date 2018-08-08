@@ -8,7 +8,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 /**
  * @author xinquan.huangxq
@@ -22,9 +21,6 @@ public class Main {
 
             Rule rule = mapper.selectOne(1);
             System.out.println(JSON.toJSONString(rule));
-
-            List<Rule> rules = mapper.selectRules();
-            System.out.println(JSON.toJSONString(rules));
         }
     }
 

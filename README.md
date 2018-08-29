@@ -21,3 +21,6 @@ Run javassist bytecode proxy:141 ms,10,000,463 t/s
 
 ## mybatis
 &nbsp;&nbsp;&nbsp;&nbsp;mybatis源码分析工程。
+
+## Fluent Interface
+&nbsp;&nbsp;&nbsp;&nbsp;通过动态代理实现链式调用。

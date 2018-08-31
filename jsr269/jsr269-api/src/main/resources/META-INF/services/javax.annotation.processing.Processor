@@ -1,2 +1,3 @@
 com.wx.somecode.MyGetterProcessor
 com.wx.somecode.MyUtilProcessor
+com.wx.somecode.MyBuilderProcessor

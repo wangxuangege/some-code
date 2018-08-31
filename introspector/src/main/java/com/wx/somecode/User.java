@@ -1,23 +1,34 @@
 package com.wx.somecode;
 
-import java.util.Date;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  * @author xinquan.huangxq
  */
 public class User {
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     private String name;
-    private int age;
-    private Date birthday;
+
     private String a = "2";
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.pcs.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.pcs.removePropertyChangeListener(listener);
+    }
 
     public String getAAA() {
         return a;
     }
 
     public void setAAA(String a) {
+        String old = this.a;
         this.a = a;
+        this.pcs.firePropertyChange("a", old == null ? "null" : old, this.a);
     }
 
     public String getName() {
@@ -25,29 +36,8 @@ public class User {
     }
 
     public void setName(String name) {
-        System.out.println("[User:setName " + name + "]");
+        String old = this.name;
         this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    @Override
-    public String toString() {
-        return "User [name=" + name + ", age=" + age + ", birthday=" + birthday
-                + "]";
+        this.pcs.firePropertyChange("name", old == null ? "null" : old, this.name);
     }
 }

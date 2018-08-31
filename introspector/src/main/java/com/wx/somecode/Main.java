@@ -2,10 +2,7 @@ package com.wx.somecode;
 
 import com.alibaba.fastjson.JSON;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
+import java.beans.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -31,6 +28,11 @@ public class Main {
 
     public static void introspector() throws InvocationTargetException, IllegalAccessException, IntrospectionException, NoSuchMethodException {
         User user = new User();
+        user.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent evt) {
+                System.out.println(evt.getPropertyName() + ":" + evt.getOldValue() + "--->>>" + evt.getNewValue());
+            }
+        });
 
         //操作单个属性
         PropertyDescriptor pd = new PropertyDescriptor("name", User.class);
@@ -39,14 +41,9 @@ public class Main {
         Method r = pd.getReadMethod();//获取属性的getter方法
         System.out.println(r.invoke(user, null));
 
-        //操作所有属性
-        BeanInfo bi = Introspector.getBeanInfo(User.class);
-        PropertyDescriptor[] pds = bi.getPropertyDescriptors();
-        System.out.println(JSON.toJSONString(pds));
-
         PropertyDescriptor pd2 = new PropertyDescriptor("a", User.class, "getAAA", "setAAA");
         Method w2 = pd2.getWriteMethod();
-        w2.invoke(user, "dkold");
+        w2.invoke(user, "ddd");
         Method r2 = pd2.getReadMethod();
         System.out.println(r2.invoke(user, null));
     }

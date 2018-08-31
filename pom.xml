@@ -15,6 +15,9 @@
         <module>sentinel</module>
         <module>mybatis</module>
         <module>fluent-interface</module>
+        <module>myenum</module>
+        <module>myenum-main</module>
+        <module>jsr269</module>
     </modules>
 
     <dependencies>

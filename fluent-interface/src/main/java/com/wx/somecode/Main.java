@@ -15,5 +15,11 @@ public class Main {
                         .name("java")
                         .build();
         System.out.println(JSON.toJSONString(student));
+
+        UserInfo userInfo = UserInfo.builder()
+                .name("huanglei")
+                .email("245817568@qq.com")
+                .build();
+        System.out.println(JSON.toJSONString(userInfo));
     }
 }

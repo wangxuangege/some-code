@@ -24,3 +24,6 @@ Run javassist bytecode proxy:141 ms,10,000,463 t/s
 
 ## Fluent Interface
 &nbsp;&nbsp;&nbsp;&nbsp;通过动态代理实现链式调用。
+
+## jsr269
+&nbsp;&nbsp;&nbsp;&nbsp;利用JSR269规范，实现编译时候动态更改类行为。

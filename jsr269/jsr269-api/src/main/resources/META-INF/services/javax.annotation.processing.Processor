@@ -1,3 +1,5 @@
 com.wx.somecode.MyGetterProcessor
 com.wx.somecode.MyUtilProcessor
 com.wx.somecode.MyBuilderProcessor
+com.wx.somecode.MyEnumProcessor
+com.wx.somecode.MyDataProcessor

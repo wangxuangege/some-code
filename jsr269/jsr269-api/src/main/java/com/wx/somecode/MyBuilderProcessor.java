@@ -26,7 +26,7 @@ import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
 /**
- * @author liuzhengyang
+ * @author xinquan.huangxq
  */
 @SupportedAnnotationTypes("com.wx.somecode.MyBuilder")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)

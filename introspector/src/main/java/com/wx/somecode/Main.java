@@ -1,7 +1,5 @@
 package com.wx.somecode;
 
-import com.alibaba.fastjson.JSON;
-
 import java.beans.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

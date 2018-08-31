@@ -27,3 +27,6 @@ Run javassist bytecode proxy:141 ms,10,000,463 t/s
 
 ## jsr269
 &nbsp;&nbsp;&nbsp;&nbsp;利用JSR269规范，实现编译时候动态更改类行为。
+
+## introspector
+&nbsp;&nbsp;&nbsp;&nbsp;搞清楚java内省。

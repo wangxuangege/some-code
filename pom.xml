@@ -18,6 +18,7 @@
         <module>myenum</module>
         <module>myenum-main</module>
         <module>jsr269</module>
+        <module>introspector</module>
     </modules>
 
     <dependencies>

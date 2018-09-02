@@ -19,6 +19,7 @@
         <module>myenum-main</module>
         <module>jsr269</module>
         <module>introspector</module>
+        <module>spring5</module>
     </modules>
 
     <dependencies>

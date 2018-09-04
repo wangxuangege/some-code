@@ -20,6 +20,7 @@
         <module>jsr269</module>
         <module>introspector</module>
         <module>spring5</module>
+        <module>drools</module>
     </modules>
 
     <dependencies>

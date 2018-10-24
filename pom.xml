@@ -15,12 +15,12 @@
         <module>sentinel</module>
         <module>mybatis</module>
         <module>fluent-interface</module>
-        <module>myenum</module>
-        <module>myenum-main</module>
         <module>jsr269</module>
         <module>introspector</module>
         <module>spring5</module>
         <module>drools</module>
+        <module>lamb</module>
+        <module>thread-lock</module>
     </modules>
 
     <dependencies>

@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
-                .expireAfterAccess(2, TimeUnit.SECONDS)
+                .expireAfterWrite(2, TimeUnit.SECONDS)
                 .removalListener(RemovalListeners.asynchronous(notification -> {
                     System.out.println(notification.getCause());
                     System.out.println(notification.getKey() + " --> " + notification.getValue());
@@ -27,7 +27,7 @@ public class Main {
             public void run() {
                 cache.cleanUp();
             }
-        }, 200, 200, TimeUnit.MILLISECONDS);
+        }, 1, 1, TimeUnit.SECONDS);
 
 
         for (int i = 0; i < 5; ++i) {
@@ -35,11 +35,15 @@ public class Main {
         }
         cache.invalidate(2);
 
-        Thread.sleep(1000L);
-        System.out.println(cache.getIfPresent(3));
+        // 测试get=null后是否会触发expire事件
+        Integer val;
+        while ((val = cache.getIfPresent(3)) != null) {
+            System.out.println(val);
+            Thread.sleep(56);
+        }
+        System.out.println(val);
 
-        Thread.sleep(3000L);
-        System.out.println(cache.getIfPresent(3));
+        Thread.sleep(3000);
 
         executor.shutdown();
         scheduledExecutorService.shutdown();

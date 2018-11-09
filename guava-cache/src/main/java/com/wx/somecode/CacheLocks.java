@@ -48,7 +48,7 @@ public class CacheLocks {
 
     private static class LockCache {
         private LoadingCache<String, ReentrantLock> lockCache = CacheBuilder.newBuilder()
-                .expireAfterAccess(1, TimeUnit.SECONDS) // 10s没有被读取就会失效（发起连接所需时间肯定低于10s）
+                .expireAfterAccess(1, TimeUnit.SECONDS)
                 .weakValues()
                 .build(new CacheLoader<String, ReentrantLock>() {
                     @Override

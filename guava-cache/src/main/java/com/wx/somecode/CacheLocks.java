@@ -9,6 +9,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * lock和unlock必须在同一个流程里面完成，不能在其他线程unlock
+ */
 public class CacheLocks {
 
     public static void main(String[] args) throws InterruptedException {

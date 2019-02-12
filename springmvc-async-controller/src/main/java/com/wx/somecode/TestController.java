@@ -1,10 +1,15 @@
 package com.wx.somecode;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
@@ -64,5 +69,58 @@ public class TestController {
     public String setDeferredResult() {
         deferredResult.setResult("Test result!" + new Random().nextInt());
         return "succeed";
+    }
+
+    /**
+     * Callback和DeferredResult用于设置单个结果，如果有多个结果需要返回给客户端时，可以使用SseEmitter
+     */
+    private SseEmitter sseEmitter = new SseEmitter();
+
+    /**
+     * 返回SseEmitter对象
+     *
+     * @return
+     */
+    @RequestMapping("/testSseEmitter")
+    public SseEmitter testSseEmitter() {
+        return sseEmitter;
+    }
+
+    /**
+     * 向SseEmitter对象发送数据
+     *
+     * @return
+     */
+    @RequestMapping("/setSseEmitter")
+    public String setSseEmitter() {
+        try {
+            sseEmitter.send(System.currentTimeMillis());
+        } catch (IOException e) {
+            log.error("IOException!", e);
+            return "error";
+        }
+
+        return "Succeed!";
+    }
+
+    /**
+     * 将SseEmitter对象设置成完成
+     *
+     * @return
+     */
+    @RequestMapping("/completeSseEmitter")
+    public String completeSseEmitter() {
+        sseEmitter.complete();
+
+        return "Succeed!";
+    }
+
+    @GetMapping("/download")
+    public StreamingResponseBody handle() {
+        return outputStream -> {
+            for (int i = 0; i < 1000; ++i) {
+                outputStream.write(i);
+            }
+        };
     }
 }

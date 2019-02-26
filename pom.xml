@@ -22,6 +22,8 @@
         <module>lamb</module>
         <module>thread-lock</module>
         <module>guava-cache</module>
+        <module>unsafe</module>
+        <module>ignite</module>
     </modules>
 
     <dependencies>

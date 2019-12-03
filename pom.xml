@@ -24,6 +24,9 @@
         <module>guava-cache</module>
         <module>unsafe</module>
         <module>ignite</module>
+        <module>jaeger</module>
+        <module>rocketmq-commitlog</module>
+        <module>spring5-code</module>
     </modules>
 
     <dependencies>

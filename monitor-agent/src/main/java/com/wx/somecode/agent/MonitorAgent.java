@@ -8,6 +8,8 @@ import java.lang.instrument.Instrumentation;
 public class MonitorAgent {
 
     public static void premain(String args, Instrumentation instrumentation) {
-        instrumentation.addTransformer(new MonitorClassFileTransformer());
+        System.out.println("Run MonitorAgent");
+
+        instrumentation.addTransformer(new MonitorTransformer());
     }
 }

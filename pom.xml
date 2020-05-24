@@ -28,6 +28,7 @@
         <module>rocketmq-commitlog</module>
         <module>spring5-code</module>
         <module>monitor-agent</module>
+        <module>my-mockito</module>
     </modules>
 
     <dependencies>
@@ -48,42 +49,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>releases</id>
-            <!-- <url>http://144.131.254.48/nexus/content/repositories/releases-->
-            <url>http://172.30.252.132:8081/nexus/content/repositories/releases
-            </url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <!-- <url>http://144.131.254.48/nexus/content/repositories/snapshots-->
-            <url>http://172.30.252.132:8081/nexus/content/repositories/snapshots
-            </url>
-        </snapshotRepository>
-    </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>main</id>
-            <!-- <url>http://144.131.254.48/nexus/content/groups/public/</url>-->
-            <url>http://172.30.252.132:8081/nexus/content/groups/security/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>main-plugin</id>
-            <!-- <url>http://144.131.254.48:6080/nexus/content/groups/public/</url>-->
-            <url>http://172.30.252.132:8081/nexus/content/groups/security/</url>
-        </pluginRepository>
-    </pluginRepositories>
 </project>

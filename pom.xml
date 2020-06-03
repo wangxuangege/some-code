@@ -29,6 +29,8 @@
         <module>spring5-code</module>
         <module>monitor-agent</module>
         <module>my-mockito</module>
+        <module>fix-java-ssl</module>
+        <module>pf4j</module>
     </modules>
 
     <dependencies>

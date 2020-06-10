@@ -11,6 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.setProperty("pf4j.pluginsDir", "D:\\Workspace\\projects\\some-code\\pf4j\\pf4j-main\\target\\classes\\plugins");
+        System.setProperty("pf4j.mode", "prod");
 
         final PluginManager pluginManager = new DefaultPluginManager() {
             protected ExtensionFinder createExtensionFinder() {

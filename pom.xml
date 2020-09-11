@@ -31,6 +31,7 @@
         <module>my-mockito</module>
         <module>fix-java-ssl</module>
         <module>pf4j</module>
+        <module>pipeline</module>
     </modules>
 
     <dependencies>

@@ -66,9 +66,9 @@ public class Main {
 
     public static void test(CountService service, String label) {
         service.count();
-        int count = 10000000;
+        long count = 1000000000L;
         long time = System.currentTimeMillis();
-        for (int i = 0; i < count; i++) {
+        for (long i = 0; i < count; i++) {
             service.count();
         }
         time = System.currentTimeMillis() - time;

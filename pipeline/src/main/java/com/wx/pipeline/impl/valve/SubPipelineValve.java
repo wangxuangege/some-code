@@ -20,6 +20,7 @@ package com.wx.pipeline.impl.valve;
 
 import com.wx.pipeline.Pipeline;
 import com.wx.pipeline.PipelineContext;
+import com.wx.pipeline.impl.Callback;
 import com.wx.pipeline.support.AbstractValve;
 
 /**
@@ -38,8 +39,19 @@ public class SubPipelineValve extends AbstractValve {
         this.subPipeline = subPipeline;
     }
 
-    public void invoke(PipelineContext pipelineContext) throws Exception {
-        subPipeline.newInvocation(pipelineContext).invoke();
-        pipelineContext.invokeNext();
+    public void invoke(PipelineContext pipelineContext, Callback callback) throws Exception {
+        Callback newCallback = new Callback() {
+            @Override
+            public void callback(PipelineContext pipelineContext) {
+                callback.callback(pipelineContext);
+            }
+        };
+        subPipeline.newInvocation(pipelineContext).invoke(newCallback);
+        pipelineContext.invokeNext(new Callback() {
+            @Override
+            public void callback(PipelineContext pipelineContext) {
+                newCallback.callback(pipelineContext);
+            }
+        });
     }
 }

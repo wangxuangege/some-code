@@ -20,6 +20,7 @@ package com.wx.pipeline.impl.valve;
 
 import com.wx.pipeline.Pipeline;
 import com.wx.pipeline.PipelineContext;
+import com.wx.pipeline.impl.Callback;
 import com.wx.pipeline.support.AbstractValve;
 
 /**
@@ -28,9 +29,9 @@ import com.wx.pipeline.support.AbstractValve;
  * @author Michael Zhou
  */
 public class ExitValve extends AbstractValve {
-    public void invoke(PipelineContext pipelineContext) throws Exception {
+    public void invoke(PipelineContext pipelineContext, Callback callback) throws Exception {
         pipelineContext.breakPipeline(Pipeline.TOP_LABEL);
-        pipelineContext.invokeNext();
+        pipelineContext.invokeNext(callback);
     }
 
     @Override

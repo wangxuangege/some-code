@@ -18,6 +18,7 @@
 package com.wx.pipeline.impl.valve;
 
 import com.wx.pipeline.PipelineContext;
+import com.wx.pipeline.impl.Callback;
 import com.wx.pipeline.support.AbstractValve;
 
 /**
@@ -49,14 +50,14 @@ public class BreakValve extends AbstractValve {
         this.toLabel = toLabel;
     }
 
-    public void invoke(PipelineContext pipelineContext) throws Exception {
+    public void invoke(PipelineContext pipelineContext, Callback callback) throws Exception {
         if (toLabel != null) {
             pipelineContext.breakPipeline(toLabel);
         } else {
             pipelineContext.breakPipeline(levels);
         }
 
-        pipelineContext.invokeNext();
+        pipelineContext.invokeNext(callback);
     }
 
     @Override

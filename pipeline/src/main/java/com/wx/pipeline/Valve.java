@@ -17,6 +17,8 @@
 
 package com.wx.pipeline;
 
+import com.wx.pipeline.impl.Callback;
+
 /**
  * 代表pipeline中的一个“阀门”。
  * <p>
@@ -27,5 +29,5 @@ package com.wx.pipeline;
  * @author Michael Zhou
  */
 public interface Valve {
-    void invoke(PipelineContext pipelineContext) throws Exception;
+    void invoke(PipelineContext pipelineContext, Callback callback) throws Exception;
 }

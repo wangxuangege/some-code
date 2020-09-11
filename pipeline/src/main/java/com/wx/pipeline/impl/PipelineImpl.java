@@ -97,7 +97,7 @@ public class PipelineImpl implements Pipeline {
             }
         }
 
-        public void invokeNext() {
+        public void invokeNext(Callback callback) {
             if (broken) {
                 return;
             }
@@ -118,7 +118,7 @@ public class PipelineImpl implements Pipeline {
                     try {
                         System.out.println("Entering " + descCurrentValve() + ":" + valve);
 
-                        valve.invoke(this);
+                        valve.invoke(this, callback);
                     } catch (PipelineException e) {
                         throw e;
                     } catch (Exception e) {
@@ -132,9 +132,13 @@ public class PipelineImpl implements Pipeline {
                     }
                 } else {
                     System.out.println(descCurrentPipeline() + " reaches its end.");
+
+                    if (callback != null && level() == 1) {
+                        callback.callback(this);
+                    }
                 }
             } finally {
-                executingIndex--;
+                //executingIndex--;
             }
         }
 
@@ -159,9 +163,9 @@ public class PipelineImpl implements Pipeline {
             return !broken && executedIndex >= valves.length;
         }
 
-        public void invoke() throws IllegalStateException {
+        public void invoke(Callback callback) throws IllegalStateException {
             executingIndex = executedIndex = -1;
-            invokeNext();
+            invokeNext(callback);
         }
 
         public Object getAttribute(String key) {

@@ -17,6 +17,8 @@
 
 package com.wx.pipeline;
 
+import com.wx.pipeline.impl.Callback;
+
 /**
  * <code>PipelineContext</code>
  * 是由pipeline提供给valve的一个上下文对象，它代表了当前pipeline的执行状态，并控制pipeline的执行步骤。
@@ -29,7 +31,7 @@ public interface PipelineContext extends PipelineStates {
      *
      * @throws IllegalStateException 假如该方法被多次调用。
      */
-    void invokeNext() throws IllegalStateException, PipelineException;
+    void invokeNext(Callback callback) throws IllegalStateException, PipelineException;
 
     /**
      * 中断并跳出pipeline的执行。

@@ -21,6 +21,7 @@ package com.wx.pipeline.impl.valve;
 import com.wx.pipeline.Condition;
 import com.wx.pipeline.Pipeline;
 import com.wx.pipeline.PipelineContext;
+import com.wx.pipeline.impl.Callback;
 import com.wx.pipeline.support.AbstractValve;
 
 /**
@@ -48,11 +49,23 @@ public class IfValve extends AbstractValve {
         this.block = block;
     }
 
-    public void invoke(PipelineContext pipelineContext) throws Exception {
+    public void invoke(PipelineContext pipelineContext, Callback callback) throws Exception {
+        Callback newCallback = new Callback() {
+            @Override
+            public void callback(PipelineContext pipelineContext) {
+                callback.callback(pipelineContext);
+            }
+        };
+
         if (condition.isSatisfied(pipelineContext)) {
-            block.newInvocation(pipelineContext).invoke();
+            block.newInvocation(pipelineContext).invoke(newCallback);
         }
 
-        pipelineContext.invokeNext();
+        pipelineContext.invokeNext(new Callback() {
+            @Override
+            public void callback(PipelineContext pipelineContext) {
+                newCallback.callback(pipelineContext);
+            }
+        });
     }
 }

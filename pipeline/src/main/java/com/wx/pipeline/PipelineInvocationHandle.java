@@ -17,6 +17,8 @@
 
 package com.wx.pipeline;
 
+import com.wx.pipeline.impl.Callback;
+
 /**
  * 代表一次pipeline的执行。
  *
@@ -28,5 +30,5 @@ public interface PipelineInvocationHandle extends PipelineStates {
      *
      * @throws IllegalStateException 被中断的pipeline无法再次invoke，否则抛此异常。
      */
-    void invoke() throws IllegalStateException, PipelineException;
+    void invoke(Callback callback) throws IllegalStateException, PipelineException;
 }

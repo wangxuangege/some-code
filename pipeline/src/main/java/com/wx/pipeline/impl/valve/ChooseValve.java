@@ -20,6 +20,7 @@ package com.wx.pipeline.impl.valve;
 import com.wx.pipeline.Condition;
 import com.wx.pipeline.Pipeline;
 import com.wx.pipeline.PipelineContext;
+import com.wx.pipeline.impl.Callback;
 import com.wx.pipeline.support.AbstractValve;
 
 /**
@@ -57,21 +58,34 @@ public class ChooseValve extends AbstractValve {
     }
 
 
-    public void invoke(PipelineContext pipelineContext) throws Exception {
+    public void invoke(PipelineContext pipelineContext, Callback callback) throws Exception {
         boolean satisfied = false;
+
+        Callback newCallback = new Callback() {
+            @Override
+            public void callback(PipelineContext pipelineContext) {
+                callback.callback(pipelineContext);
+            }
+        };
 
         for (int i = 0; i < whenConditions.length; i++) {
             if (whenConditions[i].isSatisfied(pipelineContext)) {
                 satisfied = true;
-                whenBlocks[i].newInvocation(pipelineContext).invoke();
+                whenBlocks[i].newInvocation(pipelineContext).invoke(newCallback);
                 break;
             }
         }
 
         if (!satisfied && otherwiseBlock != null) {
-            otherwiseBlock.newInvocation(pipelineContext).invoke();
+            otherwiseBlock.newInvocation(pipelineContext).invoke(newCallback);
         }
 
-        pipelineContext.invokeNext();
+        pipelineContext.invokeNext(new Callback() {
+
+            @Override
+            public void callback(PipelineContext pipelineContext) {
+                newCallback.callback(pipelineContext);
+            }
+        });
     }
 }

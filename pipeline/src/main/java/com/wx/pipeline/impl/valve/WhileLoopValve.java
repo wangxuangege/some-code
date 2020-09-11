@@ -21,6 +21,7 @@ package com.wx.pipeline.impl.valve;
 import com.wx.pipeline.Condition;
 import com.wx.pipeline.PipelineContext;
 import com.wx.pipeline.PipelineInvocationHandle;
+import com.wx.pipeline.impl.Callback;
 
 /**
  * 当条件满足时，执行循环体。
@@ -39,7 +40,7 @@ public class WhileLoopValve extends LoopValve {
     }
 
     @Override
-    public void invoke(PipelineContext pipelineContext) throws Exception {
+    public void invoke(PipelineContext pipelineContext, Callback callback) throws Exception {
 
         PipelineInvocationHandle handle = initLoop(pipelineContext);
 
@@ -51,6 +52,6 @@ public class WhileLoopValve extends LoopValve {
             }
         }
 
-        pipelineContext.invokeNext();
+        pipelineContext.invokeNext(callback);
     }
 }

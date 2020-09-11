@@ -19,6 +19,7 @@ package com.wx.pipeline.impl.valve;
 
 import com.wx.pipeline.Condition;
 import com.wx.pipeline.PipelineContext;
+import com.wx.pipeline.impl.Callback;
 
 /**
  * 当条件满足时，中断pipeline。
@@ -37,11 +38,11 @@ public class BreakIfValve extends BreakValve {
     }
 
     @Override
-    public void invoke(PipelineContext pipelineContext) throws Exception {
+    public void invoke(PipelineContext pipelineContext, Callback callback) throws Exception {
         if (condition.isSatisfied(pipelineContext)) {
-            super.invoke(pipelineContext);
+            super.invoke(pipelineContext, null);
         }
 
-        pipelineContext.invokeNext();
+        pipelineContext.invokeNext(callback);
     }
 }

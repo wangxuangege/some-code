@@ -21,6 +21,7 @@ import com.wx.pipeline.Pipeline;
 import com.wx.pipeline.PipelineContext;
 import com.wx.pipeline.PipelineInvocationHandle;
 import com.wx.pipeline.TooManyLoopsException;
+import com.wx.pipeline.impl.Callback;
 import com.wx.pipeline.support.AbstractValve;
 
 
@@ -60,7 +61,7 @@ public class LoopValve extends AbstractValve {
         this.loopCounterName = loopCounterName;
     }
 
-    public void invoke(PipelineContext pipelineContext) throws Exception {
+    public void invoke(PipelineContext pipelineContext, Callback callback) throws Exception {
 
         PipelineInvocationHandle handle = initLoop(pipelineContext);
 
@@ -68,7 +69,7 @@ public class LoopValve extends AbstractValve {
             invokeBody(handle);
         } while (!handle.isBroken());
 
-        pipelineContext.invokeNext();
+        pipelineContext.invokeNext(callback);
     }
 
     protected PipelineInvocationHandle initLoop(PipelineContext pipelineContext) {
@@ -87,7 +88,7 @@ public class LoopValve extends AbstractValve {
             throw new TooManyLoopsException("Too many loops: exceeds the maximum count: " + maxLoopCount);
         }
 
-        handle.invoke();
+        handle.invoke(null);
         handle.setAttribute(loopCounterName, ++loopCount);
     }
 }

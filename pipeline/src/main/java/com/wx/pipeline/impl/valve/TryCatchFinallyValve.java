@@ -20,6 +20,7 @@ package com.wx.pipeline.impl.valve;
 import com.wx.pipeline.Pipeline;
 import com.wx.pipeline.PipelineContext;
 import com.wx.pipeline.PipelineInvocationHandle;
+import com.wx.pipeline.impl.Callback;
 import com.wx.pipeline.support.AbstractValve;
 
 /**
@@ -66,25 +67,25 @@ public class TryCatchFinallyValve extends AbstractValve {
         this.finallyPipeline = finallyPipeline;
     }
 
-    public void invoke(PipelineContext pipelineContext) throws Exception {
+    public void invoke(PipelineContext pipelineContext, Callback callback) throws Exception {
         try {
             if (tryPipeline != null) {
-                tryPipeline.newInvocation(pipelineContext).invoke();
+                tryPipeline.newInvocation(pipelineContext).invoke(null);
             }
         } catch (Exception e) {
             if (catchPipeline != null) {
-                PipelineInvocationHandle handle = catchPipeline.newInvocation(pipelineContext);
+                PipelineInvocationHandle handle = catchPipeline.newInvocation(null);
                 handle.setAttribute(getExceptionName(), e);
-                handle.invoke();
+                handle.invoke(callback);
             } else {
                 throw e;
             }
         } finally {
             if (finallyPipeline != null) {
-                finallyPipeline.newInvocation(pipelineContext).invoke();
+                finallyPipeline.newInvocation(pipelineContext).invoke(null);
             }
         }
 
-        pipelineContext.invokeNext();
+        pipelineContext.invokeNext(callback);
     }
 }

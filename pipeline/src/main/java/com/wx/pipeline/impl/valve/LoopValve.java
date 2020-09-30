@@ -65,11 +65,23 @@ public class LoopValve extends AbstractValve {
 
         PipelineInvocationHandle handle = initLoop(pipelineContext);
 
+        Callback newCallback = new Callback() {
+            @Override
+            public void callback(PipelineContext pipelineContext) {
+
+            }
+        };
+        Callback loopCallback = new Callback() {
+            @Override
+            public void callback(PipelineContext pipelineContext) {
+                callback.callback(pipelineContext);
+            }
+        };
         do {
-            invokeBody(handle);
+            invokeBody(handle, loopCallback);
         } while (!handle.isBroken());
 
-        pipelineContext.invokeNext(callback);
+        pipelineContext.invokeNext(loopCallback);
     }
 
     protected PipelineInvocationHandle initLoop(PipelineContext pipelineContext) {
@@ -78,7 +90,7 @@ public class LoopValve extends AbstractValve {
         return handle;
     }
 
-    protected void invokeBody(PipelineInvocationHandle handle) {
+    protected void invokeBody(PipelineInvocationHandle handle, Callback callback) {
         String loopCounterName = getLoopCounterName();
         int loopCount = (Integer) handle.getAttribute(loopCounterName);
         int maxLoopCount = getMaxLoopCount();
@@ -88,7 +100,7 @@ public class LoopValve extends AbstractValve {
             throw new TooManyLoopsException("Too many loops: exceeds the maximum count: " + maxLoopCount);
         }
 
-        handle.invoke(null);
+        handle.invoke(callback);
         handle.setAttribute(loopCounterName, ++loopCount);
     }
 }

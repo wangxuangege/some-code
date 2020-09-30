@@ -3,11 +3,13 @@ package com.wx.pipeline;
 import com.google.common.util.concurrent.*;
 import com.wx.pipeline.impl.Callback;
 import com.wx.pipeline.impl.PipelineImpl;
+import com.wx.pipeline.impl.valve.BreakIfValve;
 import com.wx.pipeline.impl.valve.ChooseValve;
+import com.wx.pipeline.impl.valve.LoopValve;
 import org.junit.After;
 import org.junit.Test;
+import sun.awt.SunHints;
 
-import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 
@@ -82,7 +84,7 @@ public class PipelineTest {
 
     @Test
     public void test2() {
-        Condition condition1 = pipelineStates -> true;
+        Condition condition1 = pipelineStates -> false;
         PipelineImpl pipeline1 = new PipelineImpl();
         pipeline1.setValves(new Valve[] {
                 new Valve() {
@@ -266,5 +268,50 @@ public class PipelineTest {
         });
 
         cdl.await();
+    }
+
+    @Test
+    public void test4() {
+        BreakIfValve breakIfValve = new BreakIfValve();
+        breakIfValve.setCondition(new Condition() {
+            @Override
+            public boolean isSatisfied(PipelineStates pipelineStates) {
+                return (int) pipelineStates.getAttribute("loopCount") > 3;
+            }
+        });
+
+        PipelineImpl loopBody = new PipelineImpl();
+        loopBody.setValves(new Valve[] {
+                new Valve() {
+                    @Override
+                    public void invoke(PipelineContext pipelineContext, Callback callback) throws Exception {
+                        int loopCount = (int) pipelineContext.getAttribute("loopCount");
+                        System.out.println("loopCount" + loopCount + "-begin");
+                        pipelineContext.invokeNext(new Callback() {
+                            @Override
+                            public void callback(PipelineContext pipelineContext) {
+                                System.out.println("loopCount" + loopCount + "-callback");
+                                callback.callback(pipelineContext);
+                            }
+                        });
+                        System.out.println("loopCount" + loopCount + "-end");
+                    }
+                },
+                breakIfValve
+        });
+
+        LoopValve loopValve = new LoopValve();
+        loopValve.setLoopBody(loopBody);
+        loopValve.setMaxLoopCount(5);
+
+        PipelineImpl pipeline = new PipelineImpl();
+        pipeline.setValves(new Valve[] { loopValve });
+        pipeline.setLabel("test4");
+        pipeline.newInvocation().invoke(new Callback() {
+            @Override
+            public void callback(PipelineContext pipelineContext) {
+                System.out.println("callback");
+            }
+        });
     }
 }

@@ -44,14 +44,34 @@ public class WhileLoopValve extends LoopValve {
 
         PipelineInvocationHandle handle = initLoop(pipelineContext);
 
+        Callback nextCallback = new Callback() {
+            @Override
+            public void callback(PipelineContext pipelineContext) {
+                callback.callback(pipelineContext);
+            }
+        };
+
         while (condition.isSatisfied(handle)) { // 注意：condition的上下文为handle而非当前pipelineContext
-            invokeBody(handle);
+            final Callback runCallback = nextCallback;
+            nextCallback = new Callback() {
+                @Override
+                public void callback(PipelineContext pipelineContext1) {
+                    runCallback.callback(pipelineContext1);
+                }
+            };
+            invokeBody(handle, runCallback);
 
             if (handle.isBroken()) {
                 break;
             }
         }
 
-        pipelineContext.invokeNext(callback);
+        final Callback runCallback = nextCallback;
+        pipelineContext.invokeNext(new Callback() {
+            @Override
+            public void callback(PipelineContext pipelineContext) {
+                runCallback.callback(pipelineContext);
+            }
+        });
     }
 }

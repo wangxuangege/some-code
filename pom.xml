@@ -33,6 +33,7 @@
         <module>pf4j</module>
         <module>pipeline</module>
         <module>deflate-test</module>
+        <module>string-compress</module>
     </modules>
 
     <dependencies>
